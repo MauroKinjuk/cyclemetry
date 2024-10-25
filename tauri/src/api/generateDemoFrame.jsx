@@ -1,7 +1,7 @@
 import axios from "axios";
 import isEqual from "lodash/isEqual";
 
-import { initConfig } from "../Editor";
+import { initConfig } from "../../../frontend/src/Editor";
 async function generateDemoFrame(
   editor,
   gpxFilename,

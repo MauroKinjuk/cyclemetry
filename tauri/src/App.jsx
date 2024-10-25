@@ -1,50 +1,79 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
-import "./App.css";
+// import reactLogo from "./assets/react.svg"; // this is in src/assets
+// import { invoke } from "@tauri-apps/api/core";
+// import "./App.css";
+import "./custom.scss"
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState } from "react";
+import { Panel, PanelResizeHandle, PanelGroup } from "react-resizable-panels";
+
+import Editor from "./Editor";
+import PreviewPanel from "./PreviewPanel";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+  // LEAVE TAURI 
+  // const [greetMsg, setGreetMsg] = useState("");
+  // const [name, setName] = useState("");
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
-  }
+  // async function greet() {
+  //   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+  //   setGreetMsg(await invoke("greet", { name }));
+  // }
+  // LEAVE TAURI
+  const [gpxFilename, setGpxFilename] = useState(".demo.gpx");
+  const [imageFilename, setImageFilename] = useState(".demo.png");
+  const [editor, setEditor] = useState(null);
+  const [generatingImage, setGeneratingImage] = useState(false);
+
+  const handleGpxFilenameStateChange = (state) => {
+    setGpxFilename(state);
+  };
+  const handleImageFilenameStateChange = (state) => {
+    setImageFilename(state);
+  };
+  const handleEditorStateChange = (state) => {
+    setEditor(state);
+  };
+  const handleGeneratingImageStateChange = (state) => {
+    setGeneratingImage(state);
+  };
+
 
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
-
-      <div className="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
+    <>
+      <PanelGroup
+        autoSaveId="persistence"
+        direction="horizontal"
+        className="p-2"
       >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
-    </main>
+        <Panel className="pe-1" minSize={15} defaultSize={30}>
+          <div className="p-2 mb-2" style={{ overflow: "auto" }}>
+            <a href="/" className="text-decoration-none text-dark">
+              <img
+                src="/logo192.png"
+                alt="Cyclemetry logo"
+                className="logo"
+              />
+              <strong>cyclemetry</strong>
+            </a>
+          </div>
+          <Editor
+            gpxFilename={gpxFilename}
+            handleEditorStateChange={handleEditorStateChange}
+            handleGeneratingImageStateChange={handleGeneratingImageStateChange}
+            handleImageFilenameStateChange={handleImageFilenameStateChange}
+          />
+        </Panel>
+        <PanelResizeHandle />
+        <Panel className="ps-1" minSize={30}>
+          <PreviewPanel
+            editor={editor}
+            generatingImage={generatingImage}
+            handleGpxFilenameStateChange={handleGpxFilenameStateChange}
+            imageFilename={imageFilename}
+          />
+        </Panel>
+      </PanelGroup>
+    </>
   );
 }
 

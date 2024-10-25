@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { JSONEditor } from "@json-editor/json-editor";
 
-import generateDemoFrame from "./api/generateDemoFrame.jsx";
 import schema from "./config_schema.jsx";
+// import generateDemoFrame from "./api/generateDemoFrame.js";
 
 export const initConfig = {
   scene: {
@@ -61,12 +61,13 @@ function Editor({
     });
     editor.on("change", function () {
       // TODO - do config validation before calling generate and assigning to current config - probably helper function
-      generateDemoFrame(
-        editor,
-        gpxFilename,
-        handleGeneratingImageStateChange,
-        handleImageFilenameStateChange
-      );
+      // WALKER COMMENTED THIS OUT ON 10/24
+      // generateDemoFrame(
+      //   editor,
+      //   gpxFilename,
+      //   handleGeneratingImageStateChange,
+      //   handleImageFilenameStateChange
+      // );
       config = editor.getValue();
     });
     return () => {
