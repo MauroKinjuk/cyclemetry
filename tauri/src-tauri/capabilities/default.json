@@ -26,17 +26,24 @@
     {
       "identifier": "fs:scope",
       "allow": [
-         "$APPLOCALDATA/*",
-         "$APPLOCALDATA/**",
-        { "path": "$APPDATA" }, 
-        { "path": "$APPDATA/**" },
-        { "path": "$HOME/**" },
+        "$APPLOCALDATA/*",
+        "$APPLOCALDATA/**",
+        {
+          "path": "$APPDATA"
+        },
+        {
+          "path": "$APPDATA/**"
+        },
+        {
+          "path": "$HOME/**"
+        },
         "**",
         "**/*",
         "/**/*",
         "$APPDATA/**",
         "$HOME/**"
       ]
-    }
+    },
+    "dialog:default"
   ]
 }

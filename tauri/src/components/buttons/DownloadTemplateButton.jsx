@@ -1,15 +1,25 @@
 import Button from "react-bootstrap/Button";
+import { save } from '@tauri-apps/plugin-dialog';
+import { writeTextFile, BaseDirectory } from '@tauri-apps/plugin-fs';
 
 function DownloadTemplateButton({ editor }) {
-  const downloadTemplate = () => {
+  const downloadTemplate = async () => {
+    const path = await save(
+    {
+      filters: [
+        {
+          name: 'json_only',
+          extensions: ['json'],
+        },
+      ],
+    });
     const jsonString = JSON.stringify(editor.getValue(), null, 2);
-    const blob = new Blob([jsonString], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "cyclemetry_template.json";
-    link.click();
-    URL.revokeObjectURL(url);
+    await writeTextFile(path, jsonString)
+    .then((resp) => {
+      console.log("saved custom template");
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 
   return (
