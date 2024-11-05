@@ -47,14 +47,12 @@ function App() {
       >
         <Panel className="pe-1" minSize={15} defaultSize={30}>
           <div className="p-2 mb-2" style={{ overflow: "auto" }}>
-            <a href="/" className="text-decoration-none text-dark">
               <img
                 src="/logo192.png"
                 alt="Cyclemetry logo"
                 className="logo"
               />
               <strong>cyclemetry</strong>
-            </a>
           </div>
           <Editor
             gpxFilename={gpxFilename}
