@@ -9,4 +9,8 @@ This template should help get you started developing with Tauri and React in Vit
 
 
 For Desktop development, run:
-  npm run tauri dev
+`$ pnpm run tauri dev`
+
+
+build apps
+`$ pnpm run tauri build`
