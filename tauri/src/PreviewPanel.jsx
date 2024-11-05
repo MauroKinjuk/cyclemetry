@@ -32,11 +32,11 @@ function PreviewPanel({
       </div>
       <div className="p-2">
         <p>
-          <a href="https://github.com/walkersutton/cyclemetry/blob/main/templates/README.md">
+          <a href="https://github.com/walkersutton/cyclemetry/blob/main/templates/README.md" target="_blank">
             Template Schema
           </a>
           <br />
-          <a href="https://github.com/walkersutton/cyclemetry">GitHub repo</a>
+          <a href="https://github.com/walkersutton/cyclemetry" target="_blank">GitHub repo</a>
         </p>
       </div>
     </div>
