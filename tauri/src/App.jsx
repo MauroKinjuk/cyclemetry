@@ -1,5 +1,4 @@
 // import reactLogo from "./assets/react.svg"; // this is in src/assets
-// import { invoke } from "@tauri-apps/api/core";
 // import "./App.css";
 import "./custom.scss"
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,15 +9,6 @@ import Editor from "./Editor";
 import PreviewPanel from "./PreviewPanel";
 
 function App() {
-  // LEAVE TAURI 
-  // const [greetMsg, setGreetMsg] = useState("");
-  // const [name, setName] = useState("");
-
-  // async function greet() {
-  //   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  //   setGreetMsg(await invoke("greet", { name }));
-  // }
-  // LEAVE TAURI
   const [gpxFilename, setGpxFilename] = useState(".demo.gpx");
   const [imageFilename, setImageFilename] = useState(".demo.png");
   const [editor, setEditor] = useState(null);

@@ -1,7 +1,12 @@
-import axios from "axios";
 import isEqual from "lodash/isEqual";
+import { invoke } from "@tauri-apps/api/core";
 
-import { initConfig } from "../../../frontend/src/Editor";
+import { initConfig } from "./../Editor.jsx";
+
+    async function generateDemoFrameRust(configString, gpxFilename) {
+      return await invoke('generate_demo_frame', {configString, gpxFilename})
+    }
+
 async function generateDemoFrame(
   editor,
   gpxFilename,
@@ -15,56 +20,19 @@ async function generateDemoFrame(
   if (editor) {
     const config = editor.getValue();
     if (isEqual(config, initConfig) && gpxFilename === ".demo.gpx") {
-      handleImageFilenameStateChange(".demo.png");
+      // is this line below necessary? we default .demo.png already in App
+      // handleImageFilenameStateChange(".demo.png");
       return;
     }
     // we should validate the config - maybe do this in editor, since it's a tigter jump
     // const errors = editor.validate(); -> not sure if this is sufficient - at minimum, should pass required checks of schema
-    const configJson = JSON.stringify(config);
-    // TODO - remove this shitty hack of an upload pattern
-    const configFilename = "myconfig.json";
-    const configFile = new File([configJson], configFilename, {
-      type: "application/json",
-    });
-    const postData = new FormData();
-    postData.append("file", configFile);
+    const configString = JSON.stringify(config);
     handleGeneratingImageStateChange(true);
-    await axios
-      .post(process.env.REACT_APP_FLASK_SERVER_URL + "/upload", postData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        // console.log(response);
-      })
-      .catch((error) => {
-        console.log("generateDemoFrame failed to upload config file");
-        console.log(error);
-      });
-
-    const data = {
-      config_filename: "./tmp/" + configFilename,
-      gpx_filename: "./tmp/" + gpxFilename,
-      // TODO fix this with backend - currently don't want to break docker image
-      // config_filename: configFilename,
-      // gpx_filename: gpxFilename
-    };
-    await axios
-      .post(process.env.REACT_APP_FLASK_SERVER_URL + "/demo", data)
-      .then((response) => {
-        handleGeneratingImageStateChange(false);
-        handleImageFilenameStateChange(response.data.data);
-      })
-      .catch((error) => {
-        handleGeneratingImageStateChange(false);
-        console.log("generateDemoFrame /demo error");
-        console.log(error);
-        alert(error);
-      });
-  } else {
-    console.log("BAD BAD BAD generateDemoFrame");
-  }
+    // need to better handle errors from this rust call
+    const imageFilename = await generateDemoFrameRust(configString, gpxFilename);
+    handleGeneratingImageStateChange(false);
+    handleImageFilenameStateChange(imageFilename);
+}
 }
 
 export default generateDemoFrame;

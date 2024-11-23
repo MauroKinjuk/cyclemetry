@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { JSONEditor } from "@json-editor/json-editor";
 
 import schema from "./config_schema.jsx";
-// import generateDemoFrame from "./api/generateDemoFrame.js";
+import generateDemoFrame from "./api/generateDemoFrame.jsx"
 
 export const initConfig = {
   scene: {
@@ -61,13 +61,12 @@ function Editor({
     });
     editor.on("change", function () {
       // TODO - do config validation before calling generate and assigning to current config - probably helper function
-      // WALKER COMMENTED THIS OUT ON 10/24
-      // generateDemoFrame(
-      //   editor,
-      //   gpxFilename,
-      //   handleGeneratingImageStateChange,
-      //   handleImageFilenameStateChange
-      // );
+      generateDemoFrame(
+        editor,
+        gpxFilename,
+        handleGeneratingImageStateChange,
+        handleImageFilenameStateChange
+      );
       config = editor.getValue();
     });
     return () => {
