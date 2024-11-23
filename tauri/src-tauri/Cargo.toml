@@ -26,4 +26,5 @@ tauri-plugin-fs = "2"
 tauri-plugin-dialog = "2"
 image = "0.25.5"
 plotters = "0.3.7"
+gpx = "0.10.0"
 

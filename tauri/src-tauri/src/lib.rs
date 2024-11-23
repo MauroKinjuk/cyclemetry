@@ -1,8 +1,15 @@
+mod mods;
+
 // use serde_json::Value;
 use plotters::prelude::*;
 
 #[tauri::command]
-fn generate_demo_frame(_config_string: &str, _gpx_filename: &str) -> String {
+fn generate_demo_frame(_config_string: &str, gpx_filename: &str) -> String {
+    // this is fucked. fix
+    let prefix: &str = "/Users/walker/Downloads/";
+    let activity = mods::activity::Activity::new(&format!("{}{}", prefix, gpx_filename));
+    // println!("{:?}", activity);
+
     // let _parsed_json: Value = serde_json::from_str(config_string).expect("invalid json what is this expect for? chat gpt said?");
     let filename = "../public/generated.png";
     
